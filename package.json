@@ -1,0 +1,10 @@
+{
+  "name": "calculadora-bc-backend",
+  "version": "0.0.0",
+  "main": "index.js",
+  "author": "Lucas Lopes <dev.thuram@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "git-commit-msg-linter": "^2.6.0"
+  }
+}
