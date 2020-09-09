@@ -24,6 +24,21 @@
     "prettier"
   ],
   "rules": {
+    "no-useless-constructor": "off",
+    "class-methods-use-this": "off",
+    "import/prefer-default-export": "off",
+    "camelcase": "off",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "custom": {
+          "regex": "^I[A-Z]",
+          "match": true
+        }
+      }
+    ],
     "prettier/prettier": "error",
     "import/extensions": [
       "error",
