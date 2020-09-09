@@ -25,11 +25,13 @@
   ],
   "rules": {
     "prettier/prettier": "error",
-    "settings": {
-      "import/resolver": {
-        "typescript": {}
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never"
       }
-    }
+    ]
   },
   "settings": {
     "import/resolver": {
