@@ -9,8 +9,11 @@
     "@typescript-eslint/parser": "^4.1.0",
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.0",
-    "git-commit-msg-linter": "^2.6.0"
+    "eslint-plugin-prettier": "^3.1.4",
+    "git-commit-msg-linter": "^2.6.0",
+    "prettier": "^2.1.1"
   }
 }
