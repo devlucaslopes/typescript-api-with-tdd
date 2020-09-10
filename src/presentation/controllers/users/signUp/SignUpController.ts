@@ -1,24 +1,24 @@
-import { IUserRepository } from '@/data/protocols/database/user/UserRepository';
 import { IController } from '@/presentation/protocols/controller';
 import { IRequest, IResponse } from '@/presentation/protocols/http';
+import { CreateUser } from '@/data/useCases/user/Createuser';
 
 export class SignUpController implements IController {
-  constructor(private readonly userRepository: IUserRepository) {}
+  constructor(private readonly createUser: CreateUser) {}
 
   async handle({ body }: IRequest): Promise<IResponse> {
-    const { name, email, password } = body;
+    try {
+      const { name, email, password, passwordConfirmation } = body;
 
-    const emailAlreadyUsed = await this.userRepository.findByEmail(email);
+      const user = await this.createUser.execute({
+        name,
+        email,
+        password,
+        passwordConfirmation,
+      });
 
-    if (emailAlreadyUsed) {
-      return {
-        statusCode: 422,
-        body: {},
-      };
+      return { statusCode: 200, body: user };
+    } catch (error) {
+      return { statusCode: 400, body: { message: error.message } };
     }
-
-    const user = await this.userRepository.create({ name, email, password });
-
-    return { statusCode: 200, body: user };
   }
 }
