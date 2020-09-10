@@ -5,7 +5,9 @@
   "author": "Lucas Lopes <dev.thuram@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/express": "^4.17.8",
     "@types/jest": "^26.0.13",
+    "@types/node": "^14.6.4",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
     "eslint": "6.8.0",
@@ -19,14 +21,21 @@
     "lint-staged": "^10.3.0",
     "prettier": "^2.1.1",
     "ts-jest": "^26.3.0",
+    "ts-node-dev": "^1.0.0-pre.62",
     "typescript": "^4.0.2"
   },
   "scripts": {
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:unit": "yarn test -- --watch",
-    "test:staged": "yarn test -- --findRelatedTests"
+    "test:staged": "yarn test -- --findRelatedTests",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/main/server.ts"
   },
   "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.3.3",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.26",
     "uuidv4": "^6.2.3"
   }
 }
