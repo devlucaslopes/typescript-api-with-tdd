@@ -1,6 +1,8 @@
-import { FakeUserRepository } from '@/data/protocols/database/users/fake/FakeUserRepository';
+import { FakeUserRepository } from '@/data/protocols/database/users/fakes/FakeUserRepository';
+import { FakeHasher } from '@/data/protocols/cryptography/fakes/FakeHasher';
 import { CreateUser } from './CreateUser';
 
+let fakeHasher: FakeHasher;
 let fakeUserRepository: FakeUserRepository;
 let createUser: CreateUser;
 
@@ -13,19 +15,9 @@ const makeFakeRequest = () => ({
 
 describe('# CreateUser use case', () => {
   beforeEach(() => {
+    fakeHasher = new FakeHasher();
     fakeUserRepository = new FakeUserRepository();
-    createUser = new CreateUser(fakeUserRepository);
-  });
-
-  it('should throw error if password and passwordConfirmation not match', async () => {
-    const promise = createUser.execute({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password',
-      passwordConfirmation: 'invalid_password',
-    });
-
-    await expect(promise).rejects.toThrow();
+    createUser = new CreateUser(fakeUserRepository, fakeHasher);
   });
 
   it('should calls UserRepository.findByEmail with correct email', async () => {
@@ -44,10 +36,23 @@ describe('# CreateUser use case', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should returns a new user on success', async () => {
-    const response = await createUser.execute(makeFakeRequest());
+  it('should calls Hasher.hash with correct password', async () => {
+    const hashSpy = jest.spyOn(fakeHasher, 'hash');
 
-    expect(response).toBeTruthy();
-    expect(response.name).toEqual('any_name');
+    await createUser.execute(makeFakeRequest());
+
+    expect(hashSpy).toHaveBeenCalledWith('any_password');
+  });
+
+  it('should calls UserRepository.create with correct values', async () => {
+    const createSpy = jest.spyOn(fakeUserRepository, 'create');
+
+    await createUser.execute(makeFakeRequest());
+
+    expect(createSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'hashed_value',
+    });
   });
 });
