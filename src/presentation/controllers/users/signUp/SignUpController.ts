@@ -1,6 +1,6 @@
 import { IController } from '@/presentation/protocols/controller';
 import { IRequest, IResponse } from '@/presentation/protocols/http';
-import { CreateUser } from '@/data/useCases/user/Createuser';
+import { CreateUser } from '@/data/useCases/users/CreateUser';
 
 export class SignUpController implements IController {
   constructor(private readonly createUser: CreateUser) {}

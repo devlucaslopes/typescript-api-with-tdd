@@ -1,5 +1,3 @@
-import { uuid } from 'uuidv4';
-
 import { IUser } from '@/domain/entities/User';
 import { IUserRepository, IDBCreateUserDTO } from '../UserRepository';
 
@@ -14,7 +12,7 @@ export class FakeUserRepository implements IUserRepository {
 
   async create({ name, email, password }: IDBCreateUserDTO): Promise<IUser> {
     const user = {
-      id: uuid(),
+      id: 'any_id',
       name,
       email,
       password,

@@ -5,11 +5,14 @@
   "port": 5432,
   "username": "postgres",
   "password": "docker",
-  "database": "clean-typescript-api",
+  "database": "calculadora-bc",
   "synchronize": true,
   "logging": false,
   "entities": [
     "./src/infra/typeorm/entities/*.ts"
+  ],
+  "migrations": [
+    "./src/infra/typeorm/migrations/*.ts"
   ],
   "cli": {
     "migrationsDir": "./src/infra/typeorm/migrations"
