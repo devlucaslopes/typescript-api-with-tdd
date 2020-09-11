@@ -1,15 +1,11 @@
 import 'reflect-metadata';
-import express from 'express';
 
-import '@/infra/typeorm';
+import { createConnection } from 'typeorm';
 
-import routes from './routes';
+createConnection().then(async () => {
+  const { app } = await import('./config/app');
 
-const app = express();
-
-app.use(express.json());
-app.use(routes);
-
-app.listen(3333, () => {
-  console.log('⚡️ Server started on port 3333!');
+  app.listen(3333, () => {
+    console.log('⚡️ Server started on port 3333!');
+  });
 });

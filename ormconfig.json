@@ -5,9 +5,9 @@
   "port": 5432,
   "username": "postgres",
   "password": "docker",
-  "database": "clean-node-api",
+  "database": "clean-typescript-api",
   "synchronize": true,
-  "logging": true,
+  "logging": false,
   "entities": [
     "./src/infra/typeorm/entities/*.ts"
   ],
