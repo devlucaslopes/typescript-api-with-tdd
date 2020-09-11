@@ -3,7 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 import {
   IUserRepository,
   IDBCreateUserDTO,
-} from '@/data/protocols/database/user/UserRepository';
+} from '@/data/protocols/database/users/UserRepository';
 import { IUser } from '@/domain/entities/User';
 import User from '../entities/User';
 
