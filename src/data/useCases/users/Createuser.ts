@@ -1,6 +1,9 @@
-import { ICreateUser, ICreateUserDTO } from '@/domain/useCases/user/CreateUser';
+import {
+  ICreateUser,
+  ICreateUserDTO,
+} from '@/domain/useCases/users/CreateUser';
 import { IUser } from '@/domain/entities/User';
-import { IUserRepository } from '@/data/protocols/database/user/UserRepository';
+import { IUserRepository } from '@/data/protocols/database/users/UserRepository';
 
 export class CreateUser implements ICreateUser {
   constructor(private readonly userRepository: IUserRepository) {}

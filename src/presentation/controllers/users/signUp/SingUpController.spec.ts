@@ -1,5 +1,5 @@
-import { FakeUserRepository } from '@/data/protocols/database/user/fake/FakeUserRepository';
-import { CreateUser } from '@/data/useCases/user/Createuser';
+import { FakeUserRepository } from '@/data/protocols/database/users/fake/FakeUserRepository';
+import { CreateUser } from '@/data/useCases/users/CreateUser';
 import { SignUpController } from './SignUpController';
 
 let fakeUserRepository: FakeUserRepository;

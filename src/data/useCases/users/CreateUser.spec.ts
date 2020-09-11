@@ -1,5 +1,5 @@
-import { FakeUserRepository } from '@/data/protocols/database/user/fake/FakeUserRepository';
-import { CreateUser } from './Createuser';
+import { FakeUserRepository } from '@/data/protocols/database/users/fake/FakeUserRepository';
+import { CreateUser } from './CreateUser';
 
 let fakeUserRepository: FakeUserRepository;
 let createUser: CreateUser;
