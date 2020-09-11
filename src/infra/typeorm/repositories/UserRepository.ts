@@ -15,7 +15,7 @@ class UserRepository implements IUserRepository {
   }
 
   async findByEmail(email: string): Promise<IUser | undefined> {
-    const user = await this.ormRepository.findOne({ where: email });
+    const user = await this.ormRepository.findOne({ where: { email } });
 
     return user;
   }

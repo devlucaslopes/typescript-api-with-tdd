@@ -4,9 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.makeCreateUser = void 0;
-const Createuser_1 = require("@/data/useCases/user/Createuser");
+const CreateUser_1 = require("@/data/useCases/users/CreateUser");
 const UserRepository_1 = __importDefault(require("@/infra/typeorm/repositories/UserRepository"));
+const BcryptAdapter_1 = require("@/infra/criptograpgy/bcrypt/BcryptAdapter");
 exports.makeCreateUser = () => {
+    const SALT = 12;
+    const bcryptAdapter = new BcryptAdapter_1.BcryptAdapter(SALT);
     const userRepository = new UserRepository_1.default();
-    return new Createuser_1.CreateUser(userRepository);
+    return new CreateUser_1.CreateUser(userRepository, bcryptAdapter);
 };

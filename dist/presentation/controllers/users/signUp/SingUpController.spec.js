@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const FakeUserRepository_1 = require("@/data/protocols/database/user/fake/FakeUserRepository");
-const Createuser_1 = require("@/data/useCases/user/Createuser");
+const FakeUserRepository_1 = require("@/data/protocols/database/users/fakes/FakeUserRepository");
+const CreateUser_1 = require("@/data/useCases/users/CreateUser");
+const FakeHasher_1 = require("@/data/protocols/cryptography/fakes/FakeHasher");
 const SignUpController_1 = require("./SignUpController");
+let fakeHasher;
 let fakeUserRepository;
 let createUser;
 let signUpController;
@@ -16,8 +18,9 @@ const makeFakeRequest = () => ({
 });
 describe('# SignUp controller', () => {
     beforeEach(() => {
+        fakeHasher = new FakeHasher_1.FakeHasher();
         fakeUserRepository = new FakeUserRepository_1.FakeUserRepository();
-        createUser = new Createuser_1.CreateUser(fakeUserRepository);
+        createUser = new CreateUser_1.CreateUser(fakeUserRepository, fakeHasher);
         signUpController = new SignUpController_1.SignUpController(createUser);
     });
     it('should calls CreateUser.execute with correct values', async () => {
@@ -29,22 +32,5 @@ describe('# SignUp controller', () => {
             password: 'any_password',
             passwordConfirmation: 'any_password',
         });
-    });
-    it('should returns 200 and a new user on success', async () => {
-        const { body, statusCode } = await signUpController.handle(makeFakeRequest());
-        expect(statusCode).toBe(200);
-        expect(body.name).toBe('any_name');
-    });
-    it('should throw if password not match', async () => {
-        const { body, statusCode } = await signUpController.handle({
-            body: {
-                name: 'any_name',
-                email: 'any_email@mail.com',
-                password: 'any_password',
-                passwordConfirmation: 'wrong_password',
-            },
-        });
-        expect(statusCode).toBe(400);
-        expect(body).toHaveProperty('message');
     });
 });

@@ -5,9 +5,9 @@ class SignUpController {
     constructor(createUser) {
         this.createUser = createUser;
     }
-    async handle({ body }) {
+    async handle(request) {
         try {
-            const { name, email, password, passwordConfirmation } = body;
+            const { name, email, password, passwordConfirmation } = request.body;
             const user = await this.createUser.execute({
                 name,
                 email,

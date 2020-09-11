@@ -1,7 +1,9 @@
 import { FakeUserRepository } from '@/data/protocols/database/users/fakes/FakeUserRepository';
 import { CreateUser } from '@/data/useCases/users/CreateUser';
+import { FakeHasher } from '@/data/protocols/cryptography/fakes/FakeHasher';
 import { SignUpController } from './SignUpController';
 
+let fakeHasher: FakeHasher;
 let fakeUserRepository: FakeUserRepository;
 let createUser: CreateUser;
 let signUpController: SignUpController;
@@ -17,8 +19,9 @@ const makeFakeRequest = () => ({
 
 describe('# SignUp controller', () => {
   beforeEach(() => {
+    fakeHasher = new FakeHasher();
     fakeUserRepository = new FakeUserRepository();
-    createUser = new CreateUser(fakeUserRepository);
+    createUser = new CreateUser(fakeUserRepository, fakeHasher);
     signUpController = new SignUpController(createUser);
   });
 
