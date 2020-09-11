@@ -55,4 +55,11 @@ describe('# CreateUser use case', () => {
       password: 'hashed_value',
     });
   });
+
+  it('should returns a new user on success', async () => {
+    const response = await createUser.execute(makeFakeRequest());
+
+    expect(response.id).toBe('any_id');
+    expect(response.email).toBe('any_email@mail.com');
+  });
 });
