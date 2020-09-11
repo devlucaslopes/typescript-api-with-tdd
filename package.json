@@ -32,6 +32,8 @@
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/main/server.ts"
   },
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "pg": "^8.3.3",
     "reflect-metadata": "^0.1.13",
