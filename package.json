@@ -27,8 +27,8 @@
   },
   "scripts": {
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
-    "test:unit": "yarn test -- --watch",
-    "test:staged": "yarn test -- --findRelatedTests",
+    "test:unit": "npm test -- --watch",
+    "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/main/server.ts"
