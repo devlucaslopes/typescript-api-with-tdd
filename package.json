@@ -27,7 +27,8 @@
   },
   "scripts": {
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
-    "test:unit": "npm test -- --watch",
+    "test:unit": "npm test -- --watch -c jest.unit.js",
+    "test:integration": "npm test -- --watch -c jest.integration.js",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",

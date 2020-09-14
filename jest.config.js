@@ -12,10 +12,9 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   coverageProvider: "v8",
-  moduleNameMapper: {'@/(.*)': '<rootDir>/src/$1'},
+  moduleNameMapper: {
+    '@/(.*)': '<rootDir>/src/$1'
+  },
   preset: 'ts-jest',
-  testEnvironment: "node",
-  testMatch: [
-    "**/*.spec.ts"
-  ]
+  testEnvironment: "node"
 };
