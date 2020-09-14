@@ -12,13 +12,13 @@ export class CreateUser implements ICreateUser {
     private readonly hasher: IHasher,
   ) {}
 
-  async execute(data: ICreateUserDTO): Promise<IUser> {
+  async execute(data: ICreateUserDTO): Promise<IUser | undefined> {
     const { name, email, password } = data;
 
     const emailAlreadyUsed = await this.userRepository.findByEmail(email);
 
     if (emailAlreadyUsed) {
-      throw new Error('This e-mail already used');
+      return undefined;
     }
 
     const hashedPassword = await this.hasher.hash(password);

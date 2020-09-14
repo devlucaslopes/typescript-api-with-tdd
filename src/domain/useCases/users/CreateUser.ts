@@ -8,5 +8,5 @@ export interface ICreateUserDTO {
 }
 
 export interface ICreateUser {
-  execute: (data: ICreateUserDTO) => Promise<IUser>;
+  execute: (data: ICreateUserDTO) => Promise<IUser | undefined>;
 }

@@ -28,12 +28,12 @@ describe('# CreateUser use case', () => {
     expect(findByEmailSpy).toHaveBeenCalledWith('any_email@mail.com');
   });
 
-  it('should throw error if UserRepository.findByEmail find a user', async () => {
+  it('should returns null if UserRepository.findByEmail find a user', async () => {
     await createUser.execute(makeFakeRequest());
 
-    const promise = createUser.execute(makeFakeRequest());
+    const response = await createUser.execute(makeFakeRequest());
 
-    await expect(promise).rejects.toThrow();
+    expect(response).toBeUndefined();
   });
 
   it('should calls Hasher.hash with correct password', async () => {
@@ -59,7 +59,7 @@ describe('# CreateUser use case', () => {
   it('should returns a new user on success', async () => {
     const response = await createUser.execute(makeFakeRequest());
 
-    expect(response.id).toBe('any_id');
-    expect(response.email).toBe('any_email@mail.com');
+    expect(response?.id).toBe('any_id');
+    expect(response?.email).toBe('any_email@mail.com');
   });
 });
