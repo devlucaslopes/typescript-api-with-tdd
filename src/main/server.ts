@@ -1,8 +1,9 @@
 import 'reflect-metadata';
+import 'dotenv/config';
 
-import { createConnection } from 'typeorm';
+import { TypeORMHelper } from '@/infra/typeorm/helpers/TypeORMHelper';
 
-createConnection().then(async () => {
+TypeORMHelper.connect().then(async () => {
   const { app } = await import('./config/app');
 
   app.listen(3333, () => {
