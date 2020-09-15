@@ -1,6 +1,6 @@
 {
-  "name": "calculadora-bc-backend",
-  "version": "0.0.0",
+  "name": "clean-typescript-api",
+  "version": "0.0.1",
   "main": "index.js",
   "author": "Lucas Lopes <dev.thuram@gmail.com>",
   "license": "MIT",
