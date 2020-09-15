@@ -23,4 +23,10 @@ describe('# Authentication use case', () => {
 
     expect(findByEmailSpy).toHaveBeenCalledWith('any_email@mail.com');
   });
+
+  it('should return undefined if user not found', async () => {
+    const response = await authentication.execute(makeFakeRequest());
+
+    expect(response).toBeUndefined();
+  });
 });
