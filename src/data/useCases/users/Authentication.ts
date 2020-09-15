@@ -8,7 +8,7 @@ export class Authentication implements IAuthentication {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async execute({ email, password }: IAuthenticationDTO): Promise<string> {
-    await this.userRepository.findByEmail({ email, password });
+    await this.userRepository.findByEmail(email);
 
     return Promise.resolve('string');
   }
