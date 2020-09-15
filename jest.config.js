@@ -12,7 +12,7 @@ module.exports = {
     '!**/migrations/**'
   ],
   coverageDirectory: 'coverage',
-  coverageProvider: "v8",
+  coverageProvider: "babel",
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1'
   },
