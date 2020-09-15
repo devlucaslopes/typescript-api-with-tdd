@@ -1,3 +1,4 @@
+import { IEncrypter } from '@/data/protocols/cryptography/Encrypter';
 import { IHasher } from '@/data/protocols/cryptography/Hasher';
 import { IUserRepository } from '@/data/protocols/database/users/UserRepository';
 import {
@@ -9,6 +10,7 @@ export class Authentication implements IAuthentication {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly hasher: IHasher,
+    private readonly encrypter: IEncrypter,
   ) {}
 
   async execute({
@@ -26,6 +28,8 @@ export class Authentication implements IAuthentication {
     if (!passwordIsValid) {
       return undefined;
     }
+
+    await this.encrypter.encrypt(user.id);
 
     return Promise.resolve('string');
   }
