@@ -1,8 +1,10 @@
+import { FakeEncrypter } from '@/data/protocols/cryptography/fakes/FakeEncrypter';
 import { FakeHasher } from '@/data/protocols/cryptography/fakes/FakeHasher';
 import { FakeUserRepository } from '@/data/protocols/database/users/fakes/FakeUserRepository';
 import { IAuthentication } from '@/domain/useCases/users/Authentication';
 import { Authentication } from './Authentication';
 
+let fakeEncrypter: FakeEncrypter;
 let fakeHasher: FakeHasher;
 let fakeUserRepository: FakeUserRepository;
 let authentication: IAuthentication;
@@ -20,9 +22,14 @@ const makeFakeRequest = () => ({
 
 describe('# Authentication use case', () => {
   beforeAll(() => {
+    fakeEncrypter = new FakeEncrypter();
     fakeHasher = new FakeHasher();
     fakeUserRepository = new FakeUserRepository();
-    authentication = new Authentication(fakeUserRepository, fakeHasher);
+    authentication = new Authentication(
+      fakeUserRepository,
+      fakeHasher,
+      fakeEncrypter,
+    );
   });
 
   it('should calls UserRepositoy.findByEmail with correct email', async () => {
@@ -59,5 +66,25 @@ describe('# Authentication use case', () => {
     const response = await authentication.execute(makeFakeRequest());
 
     expect(response).toBeUndefined();
+  });
+
+  it('should calls Encrypter.encrypt with correct value', async () => {
+    fakeUserRepository.create(makeFakeUser());
+
+    const encryptSpy = jest.spyOn(fakeEncrypter, 'encrypt');
+
+    await authentication.execute(makeFakeRequest());
+
+    expect(encryptSpy).toHaveBeenCalledWith('any_id');
+  });
+
+  it('should calls Encrypter.encrypt with correct value', async () => {
+    fakeUserRepository.create(makeFakeUser());
+
+    const encryptSpy = jest.spyOn(fakeEncrypter, 'encrypt');
+
+    await authentication.execute(makeFakeRequest());
+
+    expect(encryptSpy).toHaveBeenCalledWith('any_id');
   });
 });
