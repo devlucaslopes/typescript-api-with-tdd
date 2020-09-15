@@ -17,10 +17,10 @@ describe('# Authentication use case', () => {
   });
 
   it('should calls UserRepositoy.findByEmail with correct email', async () => {
-    const findByEmail = jest.spyOn(fakeUserRepository, 'findByEmail');
+    const findByEmailSpy = jest.spyOn(fakeUserRepository, 'findByEmail');
 
     await authentication.execute(makeFakeRequest());
 
-    expect(findByEmail).toHaveBeenCalledWith(makeFakeRequest());
+    expect(findByEmailSpy).toHaveBeenCalledWith('any_email@mail.com');
   });
 });
