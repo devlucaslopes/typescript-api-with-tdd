@@ -7,8 +7,15 @@ import {
 export class Authentication implements IAuthentication {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  async execute({ email, password }: IAuthenticationDTO): Promise<string> {
-    await this.userRepository.findByEmail(email);
+  async execute({
+    email,
+    password,
+  }: IAuthenticationDTO): Promise<string | undefined> {
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) {
+      return undefined;
+    }
 
     return Promise.resolve('string');
   }

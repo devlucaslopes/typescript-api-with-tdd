@@ -4,5 +4,5 @@ export interface IAuthenticationDTO {
 }
 
 export interface IAuthentication {
-  execute: (data: IAuthenticationDTO) => Promise<string>;
+  execute: (data: IAuthenticationDTO) => Promise<string | undefined>;
 }
