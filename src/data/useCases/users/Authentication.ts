@@ -21,7 +21,11 @@ export class Authentication implements IAuthentication {
       return undefined;
     }
 
-    await this.hasher.compare(password, user.password);
+    const passwordIsValid = await this.hasher.compare(password, user.password);
+
+    if (!passwordIsValid) {
+      return undefined;
+    }
 
     return Promise.resolve('string');
   }
