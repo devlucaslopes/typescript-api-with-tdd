@@ -24,3 +24,16 @@ After install all dependencies...edit the .env
 ```bash
 cp .env.example .env
 ```
+
+## Available scripts
+`npm run dev:server`
+> Startup the server on development at http://localhost:3333
+
+`npm run test:unit`
+> Run all unit tests
+
+`npm run test:integration`
+> Run all integration tests
+
+`npm run test:ci`
+> Run all tests and show coverage
