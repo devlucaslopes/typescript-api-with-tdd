@@ -1,3 +1,4 @@
+import { IHasher } from '@/data/protocols/cryptography/Hasher';
 import { IUserRepository } from '@/data/protocols/database/users/UserRepository';
 import {
   IAuthentication,
@@ -5,7 +6,10 @@ import {
 } from '@/domain/useCases/users/Authentication';
 
 export class Authentication implements IAuthentication {
-  constructor(private readonly userRepository: IUserRepository) {}
+  constructor(
+    private readonly userRepository: IUserRepository,
+    private readonly hasher: IHasher,
+  ) {}
 
   async execute({
     email,
@@ -16,6 +20,8 @@ export class Authentication implements IAuthentication {
     if (!user) {
       return undefined;
     }
+
+    await this.hasher.compare(password, user.password);
 
     return Promise.resolve('string');
   }
