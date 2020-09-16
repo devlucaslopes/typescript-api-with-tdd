@@ -29,8 +29,8 @@ export class Authentication implements IAuthentication {
       return undefined;
     }
 
-    await this.encrypter.encrypt(user.id);
+    const token = await this.encrypter.encrypt(user.id);
 
-    return Promise.resolve('string');
+    return token;
   }
 }
