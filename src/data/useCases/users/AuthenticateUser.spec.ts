@@ -1,13 +1,13 @@
 import { FakeEncrypter } from '@/data/protocols/cryptography/fakes/FakeEncrypter';
 import { FakeHasher } from '@/data/protocols/cryptography/fakes/FakeHasher';
 import { FakeUserRepository } from '@/data/protocols/database/users/fakes/FakeUserRepository';
-import { IAuthentication } from '@/domain/useCases/users/Authentication';
-import { Authentication } from './Authentication';
+import { IAuthenticateUser } from '@/domain/useCases/users/AuthenticateUser';
+import { AuthenticateUser } from './AuthenticateUser';
 
 let fakeEncrypter: FakeEncrypter;
 let fakeHasher: FakeHasher;
 let fakeUserRepository: FakeUserRepository;
-let authentication: IAuthentication;
+let authentication: IAuthenticateUser;
 
 const makeFakeUser = () => ({
   name: 'any_name',
@@ -25,7 +25,7 @@ describe('# Authentication use case', () => {
     fakeEncrypter = new FakeEncrypter();
     fakeHasher = new FakeHasher();
     fakeUserRepository = new FakeUserRepository();
-    authentication = new Authentication(
+    authentication = new AuthenticateUser(
       fakeUserRepository,
       fakeHasher,
       fakeEncrypter,
@@ -114,11 +114,11 @@ describe('# Authentication use case', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should returns access token on success', async () => {
+  it('should returns access token and username on success', async () => {
     fakeUserRepository.create(makeFakeUser());
 
     const response = await authentication.execute(makeFakeRequest());
 
-    expect(response).toEqual('any_token');
+    expect(response).toEqual({ token: 'any_token', name: 'any_name' });
   });
 });

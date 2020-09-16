@@ -1,12 +1,13 @@
 import { IEncrypter } from '@/data/protocols/cryptography/Encrypter';
 import { IHasher } from '@/data/protocols/cryptography/Hasher';
 import { IUserRepository } from '@/data/protocols/database/users/UserRepository';
+import { IAuthentication } from '@/domain/entities/Authentication';
 import {
-  IAuthentication,
+  IAuthenticateUser,
   IAuthenticationDTO,
-} from '@/domain/useCases/users/Authentication';
+} from '@/domain/useCases/users/AuthenticateUser';
 
-export class Authentication implements IAuthentication {
+export class AuthenticateUser implements IAuthenticateUser {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly hasher: IHasher,
@@ -16,7 +17,7 @@ export class Authentication implements IAuthentication {
   async execute({
     email,
     password,
-  }: IAuthenticationDTO): Promise<string | undefined> {
+  }: IAuthenticationDTO): Promise<IAuthentication | undefined> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
@@ -31,6 +32,6 @@ export class Authentication implements IAuthentication {
 
     const token = await this.encrypter.encrypt(user.id);
 
-    return token;
+    return { token, name: user.name };
   }
 }

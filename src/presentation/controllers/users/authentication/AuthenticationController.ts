@@ -1,4 +1,4 @@
-import { Authentication } from '@/data/useCases/users/Authentication';
+import { AuthenticateUser } from '@/data/useCases/users/AuthenticateUser';
 import { InvalidCredentialError } from '@/presentation/errors/InvalidCredentialError';
 import {
   badRequest,
@@ -9,19 +9,22 @@ import { IController } from '@/presentation/protocols/controller';
 import { IRequest, IResponse } from '@/presentation/protocols/http';
 
 export class AuthenticationController implements IController {
-  constructor(private readonly authentication: Authentication) {}
+  constructor(private readonly authentication: AuthenticateUser) {}
 
   async handle(request: IRequest): Promise<IResponse> {
     try {
       const { email, password } = request.body;
 
-      const token = await this.authentication.execute({ email, password });
+      const auth = await this.authentication.execute({
+        email,
+        password,
+      });
 
-      if (!token) {
+      if (!auth?.token) {
         return badRequest(new InvalidCredentialError());
       }
 
-      return success({ token });
+      return success({ token: auth.token, name: auth.name });
     } catch (error) {
       return serverError(error);
     }

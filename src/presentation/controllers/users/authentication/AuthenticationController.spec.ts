@@ -1,7 +1,7 @@
 import { FakeEncrypter } from '@/data/protocols/cryptography/fakes/FakeEncrypter';
 import { FakeHasher } from '@/data/protocols/cryptography/fakes/FakeHasher';
 import { FakeUserRepository } from '@/data/protocols/database/users/fakes/FakeUserRepository';
-import { Authentication } from '@/data/useCases/users/Authentication';
+import { AuthenticateUser } from '@/data/useCases/users/AuthenticateUser';
 import { InvalidCredentialError } from '@/presentation/errors/InvalidCredentialError';
 import {
   badRequest,
@@ -13,7 +13,7 @@ import { AuthenticationController } from './AuthenticationController';
 let fakeEncrypter: FakeEncrypter;
 let fakeHasher: FakeHasher;
 let fakeUserRepository: FakeUserRepository;
-let authentication: Authentication;
+let authentication: AuthenticateUser;
 let authenticationController: AuthenticationController;
 
 const makeFakeRequest = () => ({
@@ -29,7 +29,7 @@ describe('# AuthenticationController', () => {
     fakeHasher = new FakeHasher();
     fakeUserRepository = new FakeUserRepository();
 
-    authentication = new Authentication(
+    authentication = new AuthenticateUser(
       fakeUserRepository,
       fakeHasher,
       fakeEncrypter,
@@ -84,7 +84,9 @@ describe('# AuthenticationController', () => {
       },
     });
 
-    expect(response).toEqual(success({ token: 'any_token' }));
+    expect(response).toEqual(
+      success({ token: 'any_token', name: 'valid_name' }),
+    );
   });
 
   it('should returns 500 if Authentication.execute throws', async () => {
