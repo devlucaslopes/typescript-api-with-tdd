@@ -3,7 +3,11 @@ import { FakeHasher } from '@/data/protocols/cryptography/fakes/FakeHasher';
 import { FakeUserRepository } from '@/data/protocols/database/users/fakes/FakeUserRepository';
 import { Authentication } from '@/data/useCases/users/Authentication';
 import { InvalidCredentialError } from '@/presentation/errors/InvalidCredentialError';
-import { badRequest, success } from '@/presentation/helpers/HttpHelper';
+import {
+  badRequest,
+  serverError,
+  success,
+} from '@/presentation/helpers/HttpHelper';
 import { AuthenticationController } from './AuthenticationController';
 
 let fakeEncrypter: FakeEncrypter;
@@ -81,5 +85,15 @@ describe('# AuthenticationController', () => {
     });
 
     expect(response).toEqual(success({ token: 'any_token' }));
+  });
+
+  it('should returns 500 if Authentication.execute throws', async () => {
+    jest.spyOn(authentication, 'execute').mockImplementationOnce(async () => {
+      return Promise.reject(new Error());
+    });
+
+    const response = await authenticationController.handle(makeFakeRequest());
+
+    expect(response).toEqual(serverError(new Error()));
   });
 });
