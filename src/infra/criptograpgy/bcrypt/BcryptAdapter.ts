@@ -9,4 +9,8 @@ export class BcryptAdapter implements IHasher {
 
     return hashedValue;
   }
+
+  async compare(value: string, hashedValue: string): Promise<boolean> {
+    return bcrypt.compare(value, hashedValue);
+  }
 }
