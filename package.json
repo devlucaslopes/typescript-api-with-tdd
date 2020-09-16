@@ -13,6 +13,7 @@
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
+    "coveralls": "^3.1.0",
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -36,6 +37,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:verbose": "NODE_ENV=test jest --passWithNoTests --runInBand",
     "test:ci": "NODE_ENV=test npm test -- --coverage",
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/main/server.ts"
   },
