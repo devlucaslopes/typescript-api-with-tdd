@@ -28,6 +28,18 @@ describe('# CreateUser use case', () => {
     expect(findByEmailSpy).toHaveBeenCalledWith('any_email@mail.com');
   });
 
+  test('should throw if UserRepository.findByEmail throws', async () => {
+    jest
+      .spyOn(fakeUserRepository, 'findByEmail')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+
+    const promise = createUser.execute(makeFakeRequest());
+
+    await expect(promise).rejects.toThrow();
+  });
+
   it('should returns null if UserRepository.findByEmail find a user', async () => {
     await createUser.execute(makeFakeRequest());
 
