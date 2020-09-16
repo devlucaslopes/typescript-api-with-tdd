@@ -6,7 +6,8 @@ export class JWTAdapter implements IEncrypter {
   constructor(private readonly secret: string) {}
 
   async encrypt(id: string): Promise<string> {
-    await sign(id, this.secret);
-    return Promise.resolve('token');
+    const token = await sign(id, this.secret);
+
+    return token;
   }
 }
