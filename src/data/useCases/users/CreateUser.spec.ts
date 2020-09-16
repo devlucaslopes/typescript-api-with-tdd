@@ -28,7 +28,15 @@ describe('# CreateUser use case', () => {
     expect(findByEmailSpy).toHaveBeenCalledWith('any_email@mail.com');
   });
 
-  test('should throw if UserRepository.findByEmail throws', async () => {
+  it('should returns null if UserRepository.findByEmail find a user', async () => {
+    await createUser.execute(makeFakeRequest());
+
+    const response = await createUser.execute(makeFakeRequest());
+
+    expect(response).toBeUndefined();
+  });
+
+  it('should throw if UserRepository.findByEmail throws', async () => {
     jest
       .spyOn(fakeUserRepository, 'findByEmail')
       .mockReturnValueOnce(
@@ -40,20 +48,24 @@ describe('# CreateUser use case', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('should returns null if UserRepository.findByEmail find a user', async () => {
-    await createUser.execute(makeFakeRequest());
-
-    const response = await createUser.execute(makeFakeRequest());
-
-    expect(response).toBeUndefined();
-  });
-
   it('should calls Hasher.hash with correct password', async () => {
     const hashSpy = jest.spyOn(fakeHasher, 'hash');
 
     await createUser.execute(makeFakeRequest());
 
     expect(hashSpy).toHaveBeenCalledWith('any_password');
+  });
+
+  it('should throw if Hasher.hash throws', async () => {
+    jest
+      .spyOn(fakeHasher, 'hash')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+
+    const promise = createUser.execute(makeFakeRequest());
+
+    await expect(promise).rejects.toThrow();
   });
 
   it('should calls UserRepository.create with correct values', async () => {
@@ -66,6 +78,18 @@ describe('# CreateUser use case', () => {
       email: 'any_email@mail.com',
       password: 'hashed_value',
     });
+  });
+
+  it('should throw if UserRepository.create throws', async () => {
+    jest
+      .spyOn(fakeUserRepository, 'create')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+
+    const promise = createUser.execute(makeFakeRequest());
+
+    await expect(promise).rejects.toThrow();
   });
 
   it('should returns a new user on success', async () => {
