@@ -87,4 +87,12 @@ describe('# Authentication use case', () => {
 
     expect(encryptSpy).toHaveBeenCalledWith('any_id');
   });
+
+  it('should returns access token on success', async () => {
+    fakeUserRepository.create(makeFakeUser());
+
+    const response = await authentication.execute(makeFakeRequest());
+
+    expect(response).toEqual('any_token');
+  });
 });
