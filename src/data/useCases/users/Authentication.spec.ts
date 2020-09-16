@@ -46,6 +46,18 @@ describe('# Authentication use case', () => {
     expect(response).toBeUndefined();
   });
 
+  it('should throw if UserRepository.findByEmail throws', async () => {
+    jest
+      .spyOn(fakeUserRepository, 'findByEmail')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+
+    const promise = authentication.execute(makeFakeRequest());
+
+    await expect(promise).rejects.toThrow();
+  });
+
   it('should calls Hasher.compare with correct value', async () => {
     fakeUserRepository.create(makeFakeUser());
 
@@ -68,14 +80,16 @@ describe('# Authentication use case', () => {
     expect(response).toBeUndefined();
   });
 
-  it('should calls Encrypter.encrypt with correct value', async () => {
-    fakeUserRepository.create(makeFakeUser());
+  it('should throw if Hasher.compare throws', async () => {
+    jest
+      .spyOn(fakeHasher, 'compare')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
 
-    const encryptSpy = jest.spyOn(fakeEncrypter, 'encrypt');
+    const promise = authentication.execute(makeFakeRequest());
 
-    await authentication.execute(makeFakeRequest());
-
-    expect(encryptSpy).toHaveBeenCalledWith('any_id');
+    await expect(promise).rejects.toThrow();
   });
 
   it('should calls Encrypter.encrypt with correct value', async () => {
@@ -86,6 +100,18 @@ describe('# Authentication use case', () => {
     await authentication.execute(makeFakeRequest());
 
     expect(encryptSpy).toHaveBeenCalledWith('any_id');
+  });
+
+  it('should throw if Encrypter.encrypt throws', async () => {
+    jest
+      .spyOn(fakeEncrypter, 'encrypt')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error())),
+      );
+
+    const promise = authentication.execute(makeFakeRequest());
+
+    await expect(promise).rejects.toThrow();
   });
 
   it('should returns access token on success', async () => {
