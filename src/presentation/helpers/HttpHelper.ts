@@ -11,6 +11,11 @@ export const serverError = (error: Error): IResponse => ({
   body: new ServerError(error.stack),
 });
 
+export const forbidden = (error: Error): IResponse => ({
+  statusCode: 403,
+  body: error,
+});
+
 export const success = (data: any): IResponse => ({
   statusCode: 200,
   body: data,
