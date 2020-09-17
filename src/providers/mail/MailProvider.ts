@@ -10,6 +10,6 @@ export interface ISendMailDTO {
   templateData: any;
 }
 
-export interface IEmailProvider {
+export interface IMailProvider {
   send: (data: ISendMailDTO) => Promise<void>;
 }
