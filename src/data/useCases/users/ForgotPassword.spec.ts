@@ -23,4 +23,10 @@ describe('# ForgotPassword', () => {
 
     expect(findByEmail).toHaveBeenCalledWith('any_email@mail.com');
   });
+
+  it('should returns undefined if user not found', async () => {
+    const response = await forgotPassword.execute('any_email@mail.com');
+
+    expect(response).toBeUndefined();
+  });
 });
