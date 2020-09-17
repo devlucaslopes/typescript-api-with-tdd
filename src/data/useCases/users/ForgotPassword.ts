@@ -17,6 +17,6 @@ export class ForgotPassword implements IForgotPassword {
 
     await this.userTokenRepository.create(user.id);
 
-    return email;
+    return user.name;
   }
 }
