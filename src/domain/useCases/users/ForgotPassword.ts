@@ -1,3 +1,3 @@
 export interface IForgotPassword {
-  execute(email: string): Promise<void>;
+  execute(email: string): Promise<string | undefined>;
 }
