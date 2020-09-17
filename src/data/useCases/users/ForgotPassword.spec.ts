@@ -45,4 +45,12 @@ describe('# ForgotPassword', () => {
 
     expect(createSpy).toHaveBeenCalledWith('any_id');
   });
+
+  it('should returns user name on success', async () => {
+    fakeUserRepository.create(fakeUserData());
+
+    const response = await forgotPassword.execute('any_email@mail.com');
+
+    expect(response).toBe('any_name');
+  });
 });
