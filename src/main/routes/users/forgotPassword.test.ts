@@ -41,4 +41,13 @@ describe('# ForgotPassword route', () => {
       })
       .expect(200);
   });
+
+  it('should return 400 if user not found', async () => {
+    await request
+      .post('/forgot-password')
+      .send({
+        email: 'lucas@mail.com',
+      })
+      .expect(400);
+  });
 });
