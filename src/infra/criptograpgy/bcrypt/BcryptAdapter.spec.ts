@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 
+import HashConfig from '@/main/config/hash';
 import { BcryptAdapter } from './BcryptAdapter';
 
-const SALT = 12;
 let bcryptAdapter: BcryptAdapter;
 
 jest.mock('bcrypt', () => ({
@@ -17,7 +17,7 @@ jest.mock('bcrypt', () => ({
 
 describe('# BcryptAdapter', () => {
   beforeEach(() => {
-    bcryptAdapter = new BcryptAdapter(SALT);
+    bcryptAdapter = new BcryptAdapter(HashConfig.bcrypt.salt);
   });
 
   describe('hash()', () => {
@@ -26,7 +26,7 @@ describe('# BcryptAdapter', () => {
 
       await bcryptAdapter.hash('any_value');
 
-      expect(hashSpy).toHaveBeenCalledWith('any_value', SALT);
+      expect(hashSpy).toHaveBeenCalledWith('any_value', HashConfig.bcrypt.salt);
     });
 
     it('should returns hashed value on success', async () => {
