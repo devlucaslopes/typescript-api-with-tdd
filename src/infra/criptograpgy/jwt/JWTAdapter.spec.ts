@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 
+import authConfig from '@/main/config/auth';
 import { JWTAdapter } from './JWTAdapter';
 
-const SECRET = 'secret';
 let jwtAdapter: JWTAdapter;
 
 jest.mock('jsonwebtoken', () => ({
@@ -17,7 +17,7 @@ jest.mock('jsonwebtoken', () => ({
 
 describe('# JWT Adapter', () => {
   beforeAll(() => {
-    jwtAdapter = new JWTAdapter(SECRET);
+    jwtAdapter = new JWTAdapter(authConfig.jwt.secret);
   });
 
   describe('encrypt()', () => {
@@ -26,7 +26,7 @@ describe('# JWT Adapter', () => {
 
       await jwtAdapter.encrypt('any_id');
 
-      expect(signSpy).toHaveBeenCalledWith('any_id', SECRET);
+      expect(signSpy).toHaveBeenCalledWith('any_id', authConfig.jwt.secret);
     });
 
     it('should return a token on sign success', async () => {
@@ -42,7 +42,10 @@ describe('# JWT Adapter', () => {
 
       await jwtAdapter.decrypt('any_token');
 
-      expect(verifySpy).toHaveBeenCalledWith('any_token', SECRET);
+      expect(verifySpy).toHaveBeenCalledWith(
+        'any_token',
+        authConfig.jwt.secret,
+      );
     });
 
     it('should return user data on verify success', async () => {
