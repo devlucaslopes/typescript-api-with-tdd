@@ -63,7 +63,13 @@ describe('# ForgotPassword', () => {
         email: 'any_email@mail.com',
       },
       subject: '[Calculadora BC] - Esqueci minha senha',
-      templateData: '<b>Hello world</b>',
+      templateData: {
+        file: 'forgot_password',
+        variables: {
+          name: 'any_name',
+          link: `${process.env.APP_WEB_URI}?token=valid_token`,
+        },
+      },
     });
   });
 

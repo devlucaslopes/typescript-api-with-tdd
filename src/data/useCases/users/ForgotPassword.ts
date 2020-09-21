@@ -25,7 +25,13 @@ export class ForgotPassword implements IForgotPassword {
         email,
       },
       subject: '[Calculadora BC] - Esqueci minha senha',
-      templateData: '<b>Hello world</b>',
+      templateData: {
+        file: 'forgot_password',
+        variables: {
+          name: user.name,
+          link: `${process.env.APP_WEB_URI}?token=${token}`,
+        },
+      },
     });
 
     return user.name;

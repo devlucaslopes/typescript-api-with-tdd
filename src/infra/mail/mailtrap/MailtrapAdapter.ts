@@ -1,10 +1,11 @@
 import { IMailProvider, ISendMailDTO } from '@/providers/mail/MailProvider';
+import { IMailTemplateProvider } from '@/providers/mailTemplate/MailTemplateProvider';
 import nodemailer, { Transporter } from 'nodemailer';
 
 export class MailtrapAdapter implements IMailProvider {
   private client: Transporter;
 
-  constructor() {
+  constructor(private readonly mailTemplate: IMailTemplateProvider) {
     const transport = nodemailer.createTransport({
       host: 'smtp.mailtrap.io',
       port: 2525,
@@ -28,7 +29,7 @@ export class MailtrapAdapter implements IMailProvider {
         address: to.email,
       },
       subject,
-      html: templateData,
+      html: await this.mailTemplate.parse(templateData),
     });
   }
 }
