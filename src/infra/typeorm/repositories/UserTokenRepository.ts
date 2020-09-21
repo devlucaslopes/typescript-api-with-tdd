@@ -10,12 +10,10 @@ export class UserTokenRepository implements IUserTokenRepository {
   }
 
   async create(userId: string): Promise<UserToken> {
-    return Promise.resolve({
-      id: 'any_id',
-      user_id: 'any_id',
-      token: 'any_token',
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
+    const userToken = this.ormRepository.create({ user_id: userId });
+
+    await this.ormRepository.save(userToken);
+
+    return userToken;
   }
 }

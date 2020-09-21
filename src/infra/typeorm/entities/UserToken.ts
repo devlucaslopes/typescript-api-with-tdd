@@ -9,7 +9,7 @@ import {
 
 import { IUserToken } from '@/domain/entities/UserToken';
 
-@Entity('users')
+@Entity('user_tokens')
 class UserToken implements IUserToken {
   @PrimaryGeneratedColumn('uuid')
   id: string;
