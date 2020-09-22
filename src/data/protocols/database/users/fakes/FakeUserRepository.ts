@@ -4,6 +4,12 @@ import { IUserRepository, IDBCreateUserDTO } from '../UserRepository';
 export class FakeUserRepository implements IUserRepository {
   private users: IUser[] = [];
 
+  async findById(id: string): Promise<IUser | undefined> {
+    const checkUserExists = this.users.find(user => user.id === id);
+
+    return checkUserExists;
+  }
+
   async findByEmail(email: string): Promise<IUser | undefined> {
     const checkUserExists = this.users.find(user => user.email === email);
 

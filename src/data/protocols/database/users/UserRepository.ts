@@ -7,6 +7,8 @@ export interface IDBCreateUserDTO {
 }
 
 export interface IUserRepository {
+  findById: (id: string) => Promise<IUser | undefined>;
+
   findByEmail: (email: string) => Promise<IUser | undefined>;
 
   create: (data: IDBCreateUserDTO) => Promise<IUser>;

@@ -7,7 +7,7 @@ export class FakeUserTokenRepository implements IUserTokenRepository {
   async create(userId: string): Promise<IUserToken> {
     const userToken = {
       id: 'valid_id',
-      user_id: 'valid_user_id',
+      user_id: userId,
       token: 'valid_token',
       created_at: new Date(),
       updated_at: new Date(),
