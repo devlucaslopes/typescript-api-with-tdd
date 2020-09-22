@@ -33,6 +33,10 @@ class UserRepository implements IUserRepository {
 
     return user;
   }
+
+  async save(user: IUser): Promise<IUser> {
+    return this.ormRepository.save(user);
+  }
 }
 
 export default UserRepository;

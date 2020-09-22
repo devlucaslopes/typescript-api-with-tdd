@@ -24,12 +24,20 @@ export class ResetPassword implements IResetPassword {
       return undefined;
     }
 
-    await this.userRepository.findById(userToken.user_id);
+    const user = await this.userRepository.findById(userToken.user_id);
 
-    await this.hasher.hash(password);
+    if (!user) {
+      return undefined;
+    }
+
+    const passwordHashed = await this.hasher.hash(password);
+
+    user.password = passwordHashed;
+
+    await this.userRepository.save(user);
 
     return Promise.resolve({
-      id: 'id',
+      id: 'iasdd',
       name: 'lucas',
       email: 'lucas@mgial.com',
       password,

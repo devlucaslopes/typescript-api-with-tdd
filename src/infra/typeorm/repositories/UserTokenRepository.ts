@@ -1,6 +1,5 @@
 import { IUserTokenRepository } from '@/data/protocols/database/users/UserTokenRepository';
 import { getRepository, Repository } from 'typeorm';
-import User from '../entities/User';
 import UserToken from '../entities/UserToken';
 
 export class UserTokenRepository implements IUserTokenRepository {
