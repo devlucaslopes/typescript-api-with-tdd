@@ -17,6 +17,7 @@ class UserToken implements IUserToken {
   @Column()
   user_id: string;
 
+  @Column('uuid')
   @Generated('uuid')
   token: string;
 

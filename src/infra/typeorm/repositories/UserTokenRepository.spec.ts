@@ -20,15 +20,33 @@ describe('# UserTokenRepository', () => {
     await TypeORMHelper.clear();
   });
 
-  it('should create a new user token', async () => {
-    const user = await userRepository.create({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password',
+  describe('create()', () => {
+    it('should create a new user token', async () => {
+      const user = await userRepository.create({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+      });
+
+      const userToken = await userTokenRepository.create(user.id);
+
+      expect(userToken.user_id).toBe(user.id);
     });
+  });
 
-    const userToken = await userTokenRepository.create(user.id);
+  describe('findByToken()', () => {
+    it('should return userToken by token', async () => {
+      const user = await userRepository.create({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+      });
 
-    expect(userToken.user_id).toBe(user.id);
+      const { token } = await userTokenRepository.create(user.id);
+
+      const userTokenExists = await userTokenRepository.findByToken(token);
+
+      expect(userTokenExists?.token).toEqual(token);
+    });
   });
 });
