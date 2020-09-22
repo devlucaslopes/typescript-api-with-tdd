@@ -129,4 +129,24 @@ describe('# ResetPassword', () => {
       password: 'hashed_value',
     });
   });
+
+  it('should returns user with new password on success', async () => {
+    const user = await fakeUserRepository.create({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    });
+
+    fakeUserTokenRepository.create(user.id);
+
+    const response = await resetPassword.execute({
+      token: 'valid_token',
+      password: 'new_password',
+    });
+
+    expect(response).toEqual({
+      ...user,
+      password: 'hashed_value',
+    });
+  });
 });
