@@ -34,15 +34,6 @@ export class ResetPassword implements IResetPassword {
 
     user.password = passwordHashed;
 
-    await this.userRepository.save(user);
-
-    return Promise.resolve({
-      id: 'iasdd',
-      name: 'lucas',
-      email: 'lucas@mgial.com',
-      password,
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
+    return this.userRepository.save(user);
   }
 }
