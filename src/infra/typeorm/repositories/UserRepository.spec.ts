@@ -49,12 +49,6 @@ describe('# UserRepository', () => {
   });
 
   describe('findByEmail()', () => {
-    it('should returns undefined if user not found', async () => {
-      const userExists = await userRepository.findByEmail('any_email@mail.com');
-
-      expect(userExists).toBeUndefined();
-    });
-
     it('should returns user find by email address', async () => {
       const user = await userRepository.create({
         name: 'any_name',
