@@ -3,7 +3,8 @@ import { FakeUserRepository } from '@/data/protocols/database/users/fakes/FakeUs
 import { FakeUserTokenRepository } from '@/data/protocols/database/users/fakes/FakeUserTokenRepository';
 import { ResetPassword } from '@/data/useCases/users/ResetPassword';
 import { InvalidResetTokenError } from '@/presentation/errors/InvalidResetTokenError';
-import { badRequest } from '@/presentation/helpers/HttpHelper';
+import { ServerError } from '@/presentation/errors/ServerError';
+import { badRequest, serverError } from '@/presentation/helpers/HttpHelper';
 import { ResetPasswordController } from './ResetPasswordController';
 
 let fakeHasher: FakeHasher;
@@ -52,5 +53,20 @@ describe('# ResetPasswordController', () => {
     });
 
     expect(response).toEqual(badRequest(new InvalidResetTokenError()));
+  });
+
+  it('should returns server error if ResetPassword throws', async () => {
+    jest
+      .spyOn(resetPassword, 'execute')
+      .mockImplementationOnce(async () => Promise.reject(new Error()));
+
+    const response = await resetPasswordController.handle({
+      body: {
+        token: 'error_token',
+        password: 'error_password',
+      },
+    });
+
+    expect(response).toEqual(serverError(new ServerError()));
   });
 });
