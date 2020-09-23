@@ -1,7 +1,11 @@
 import { ResetPassword } from '@/data/useCases/users/ResetPassword';
 import { InvalidResetTokenError } from '@/presentation/errors/InvalidResetTokenError';
 import { ServerError } from '@/presentation/errors/ServerError';
-import { badRequest, serverError } from '@/presentation/helpers/HttpHelper';
+import {
+  badRequest,
+  serverError,
+  success,
+} from '@/presentation/helpers/HttpHelper';
 import { IController } from '@/presentation/protocols/controller';
 import { IRequest, IResponse } from '@/presentation/protocols/http';
 
@@ -18,7 +22,7 @@ export class ResetPasswordController implements IController {
         return badRequest(new InvalidResetTokenError());
       }
 
-      return { statusCode: 200, body: {} };
+      return success(user);
     } catch (error) {
       return serverError(new ServerError(error));
     }
