@@ -4,7 +4,11 @@ import { FakeUserTokenRepository } from '@/data/protocols/database/users/fakes/F
 import { ResetPassword } from '@/data/useCases/users/ResetPassword';
 import { InvalidResetTokenError } from '@/presentation/errors/InvalidResetTokenError';
 import { ServerError } from '@/presentation/errors/ServerError';
-import { badRequest, serverError } from '@/presentation/helpers/HttpHelper';
+import {
+  badRequest,
+  serverError,
+  success,
+} from '@/presentation/helpers/HttpHelper';
 import { ResetPasswordController } from './ResetPasswordController';
 
 let fakeHasher: FakeHasher;
@@ -68,5 +72,24 @@ describe('# ResetPasswordController', () => {
     });
 
     expect(response).toEqual(serverError(new ServerError()));
+  });
+
+  it('should returns user on success', async () => {
+    const user = await fakeUserRepository.create({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    });
+
+    const { token } = await fakeUserTokenRepository.create(user.id);
+
+    const response = await resetPasswordController.handle({
+      body: {
+        token,
+        password: 'new_password',
+      },
+    });
+
+    expect(response).toEqual(success(user));
   });
 });
