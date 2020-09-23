@@ -1,6 +1,7 @@
+import nodemailer, { Transporter } from 'nodemailer';
+
 import { IMailProvider, ISendMailDTO } from '@/providers/mail/MailProvider';
 import { IMailTemplateProvider } from '@/providers/mailTemplate/MailTemplateProvider';
-import nodemailer, { Transporter } from 'nodemailer';
 
 export class MailtrapAdapter implements IMailProvider {
   private client: Transporter;
@@ -21,8 +22,8 @@ export class MailtrapAdapter implements IMailProvider {
   async send({ to, from, subject, templateData }: ISendMailDTO): Promise<void> {
     await this.client.sendMail({
       from: {
-        name: from?.name || 'Equipe BeautyClass',
-        address: from?.email || 'equipe@beautyclass.com.br',
+        name: from?.name || 'System',
+        address: from?.email || 'system@mail.com',
       },
       to: {
         name: to.name,
