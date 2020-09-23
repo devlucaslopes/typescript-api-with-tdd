@@ -47,4 +47,14 @@ describe('# ResetPassword route', () => {
       })
       .expect(200);
   });
+
+  it('should return 400 if return undefined', async () => {
+    await request
+      .post('/reset-password')
+      .send({
+        token: '322851aa-0594-4154-853b-e751893fbe7d',
+        password: '123123',
+      })
+      .expect(400);
+  });
 });
