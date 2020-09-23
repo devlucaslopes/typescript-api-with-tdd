@@ -92,4 +92,27 @@ describe('# ResetPasswordController', () => {
 
     expect(response).toEqual(success(user));
   });
+
+  it('should returns badRequest if ResetPassword.execute return undefined when user not found', async () => {
+    const user = await fakeUserRepository.create({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    });
+
+    const { token } = await fakeUserTokenRepository.create(user.id);
+
+    jest
+      .spyOn(fakeUserRepository, 'findById')
+      .mockImplementationOnce(async () => Promise.resolve(undefined));
+
+    const response = await resetPasswordController.handle({
+      body: {
+        token,
+        password: 'new_password',
+      },
+    });
+
+    expect(response).toEqual(badRequest(new InvalidResetTokenError()));
+  });
 });
