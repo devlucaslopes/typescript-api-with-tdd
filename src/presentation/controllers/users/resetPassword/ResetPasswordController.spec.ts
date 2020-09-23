@@ -48,10 +48,10 @@ describe('# ResetPasswordController', () => {
     });
   });
 
-  it('should returns badRequest if ResetPassword.execute return undefined', async () => {
+  it('should returns badRequest if ResetPassword.execute return undefined when token token invalid', async () => {
     const response = await resetPasswordController.handle({
       body: {
-        token: 'valid_token',
+        token: 'invalid_token',
         password: 'new_password',
       },
     });
